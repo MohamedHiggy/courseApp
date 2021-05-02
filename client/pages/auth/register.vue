@@ -358,16 +358,15 @@
         try {
           e.preventDefault();
           let errors = [];
-          console.log(this.form)
-          await this.$axios.$get('sanctum/csrf-cookie');
           await this.$axios.post('/api/register', {
             name: this.form.name,
             email: this.form.email,
             password: this.form.password,
             password_confirmation: this.form.password_confirmation,
             country: this.form.country
-          }).then(function (resp) {
-          }).catch(function (err) {
+          })
+          .then(function (resp) { console.log(resp.data); })
+          .catch(function (err) {
             if (err.response.status = 422) {
               errors = err.response.data.errors;
             }

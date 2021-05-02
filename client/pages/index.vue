@@ -1,73 +1,41 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        client
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
-  </div>
+  <container>
+    <template  v-if="this.courses.courses > 0">
+        <a-row type="flex" justify="center" align="middle">
+          <a-col v-for="course in this.courses.courses" :key="course.id" :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
+            <card :title="course.title" :link="course.slug">
+              <p>{{ course.description}}</p>
+            </card>
+          </a-col>
+        </a-row>
+    </template>
+    <template  v-else>
+        <a-row type="flex" justify="center" align="middle">
+
+            <a-alert
+              message="Courses"
+              description="somthing wrong in get courses please try again in next time"
+              type="info"
+              show-icon
+            />
+        </a-row>
+    </template>
+  </container>
 </template>
-
 <script>
-export default {}
+  import container from '../components/Container';
+  import card from '../components/card';
+  import {mapState} from 'vuex'
+  export default {
+    async fetch({store}) {
+      return await store.dispatch('courses/getAllCourses')
+    },
+    components: {
+      container: container,
+      card: card
+    },
+    computed: {
+      ...mapState(['courses'])
+    },
+  }
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>
