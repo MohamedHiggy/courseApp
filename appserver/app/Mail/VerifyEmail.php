@@ -32,7 +32,7 @@ class VerifyEmail extends Mailable
     public function build()
     {
         return $this->subject('Please verify your E-mail')
-            ->from('info@wimm.media')
+            ->from('CourseApp@CourseApp.gmail')
             ->to($this->details->email)
             ->markdown('emails.verify');
     }
